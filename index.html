@@ -7,6 +7,13 @@
   <meta name="description" content="Rift AI – Quantum AGI with Multi-Agent Architecture by 0penAGI." />
   <meta name="keywords" content="Rift AI, quantum AGI, multi-agent, 0penAGI" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- React + Lucide Icons (CDN) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     * {
       margin: 0;
@@ -43,27 +50,25 @@
       margin: 0 auto;
     }
 
-     .glass {
-       background: rgba(255, 255, 255, 0.03);
-       border: 0.7px solid rgba(255, 255, 255, 0.1);
-       border-radius: 28px;
-       backdrop-filter: blur(3.14px) saturate(188%);
-       -webkit-backdrop-filter: blur(3px) saturate(188%);
-       box-shadow: 
-         0 2px 11px rgba(0, 0, 0, 0.1),
-         inset 0 0 11px rgba(255, 255, 255, 0.03);
-       padding: 9px;
-       margin-bottom: 15px;
-       opacity: 0;
-       transform: translateY(40px) scale(0.93);
-       transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-       will-change: transform, opacity;
-     }
+    .glass {
+      background: rgba(255, 255, 255, 0.03);
+      border: 0.7px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      backdrop-filter: blur(3.14px) saturate(188%);
+      -webkit-backdrop-filter: blur(3px) saturate(188%);
+      box-shadow: 
+        0 2px 11px rgba(0, 0, 0, 0.1),
+        inset 0 0 11px rgba(255, 255, 255, 0.03);
+      padding: 9px;
+      margin-bottom: 15px;
+      opacity: 0;
+      transform: translateY(40px) scale(0.93);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+      will-change: transform, opacity;
+    }
 
     @supports not (backdrop-filter: blur(3.14px)) {
-      .glass {
-        background: rgba(255, 255, 255, 0.15);
-      }
+      .glass { background: rgba(255, 255, 255, 0.15); }
     }
 
     .glass.visible {
@@ -102,282 +107,55 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .cards {
-      display: flex;
-      text-align: center;
-      flex-direction: column;
-      gap: 11px;
-    }
+    .cards { display: flex; flex-direction: column; gap: 11px; text-align: center; }
+    .card-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; margin-bottom: 11px; color: #fff; }
+    .card-subtitle { font-size: 0.55rem; color: #bbb; margin-bottom: 11px; }
+    .card-features { list-style: none; padding-left: 0; }
+    .card-features li { margin-bottom: 8px; padding-left: 11px; font-size: 0.66rem; }
 
-    .card-title {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 11px;
-      color: #fff;
-    }
+    .philosophy { font-size: 0.78rem; color: #eaeaea; }
+    .philosophy strong { color: #fff; }
 
-    .card-subtitle {
-      font-size: 0.55rem;
-      color: #bbb;
-      margin-bottom: 11px;
-    }
+    .contact { text-align: center; color: #fff; }
+    .contact a { color: #9ad0ff; text-decoration: none; font-size: 0.77rem; }
+    .contact a:hover { text-decoration: underline; }
 
-    .card-features {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .card-features li {
-      margin-bottom: 8px;
-      padding-left: 11px;
-      position: center;
-      font-size: 0.66rem;
-    }
-
-    .card-features li::before {
-      position: center;
-      left: -55;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .philosophy {
-      font-size: 0.78rem;
-      color: #eaeaea;
-    }
-
-    .philosophy strong {
-      color: #fff;
-    }
-
-    .contact {
-      text-align: center;
-      color: #fff;
-    }
-
-    .contact a {
-      color: #9ad0ff;
-      text-decoration: none;
-      font-size: 0.77rem;
-    }
-
-    .contact a:hover {
-      text-decoration: underline;
-    }
-
-    /* Carousel Styles */
-    .carousel-container {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      margin-bottom: 11px;
-    }
-
-    .carousel {
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      gap: 11px;
-      padding: 8px 0;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
-    }
-
-    .carousel::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-
+    .carousel-container { position: relative; width: 100%; overflow: hidden; margin-bottom: 11px; }
+    .carousel { display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 11px; padding: 8px 0; scrollbar-width: none; }
+    .carousel::-webkit-scrollbar { display: none; }
     .carousel-item {
-      flex: 0 0 auto;
-      background: rgba(255, 255, 255, 0.1);
-      border: 0.7px solid rgba(255, 255, 255, 0.1);
-      border-radius: 25px;
-      padding: 7px 7px;
-      backdrop-filter: blur(4px) saturate(150%);
-      -webkit-backdrop-filter: blur(4px) saturate(150%);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-      display: flex;            
-      justify-content: center;  
-      align-items: center;      
+      flex: 0 0 auto; background: rgba(255,255,255,0.1); border: 0.7px solid rgba(255,255,255,0.1);
+      border-radius: 25px; padding: 7px 7px; backdrop-filter: blur(4px) saturate(150%);
+      display: flex; justify-content: center; align-items: center; transition: all 0.3s ease;
     }
-   
-    .carousel-item:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .carousel-item a {
-      display: inline-block;
-      padding: 0px 12px;
-      border-radius: 11px;  
-      color: #9ad0ff;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .carousel-nav {
-      display: center;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .carousel-nav button {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      color: #fff;
-      font-size: 1.3rem;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    .carousel-nav button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.1);
-    }
-
-    .carousel-nav button:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    form {
-      margin-top: 10px;
-      display: center;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    input[type="email"] {
-      padding: 6px 18px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      width: 100%;
-      max-width: 277px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      backdrop-filter: blur(6px);
-      transition: border 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-      will-change: transform;
-    }
-
-    input::placeholder {
-      color: #ccc;
-    }
-
-    input:focus {
-      border: 1px solid #9ad0ff;
-      box-shadow: 0 0 8px rgba(154, 208, 255, 0.5);
-      transform: scale(1.03);
-      outline: none;
-    }
-
-    input:not(:focus) {
-      transform: scale(1);
-    }
-
-    button {
-      padding: 8px 13px;
-      border: none;
-      border-radius: 6px;
-      background-color: #1a1a1a;
-      color: white;
-      font-weight: 700;
-      font-size: 0.55rem;
-      cursor: pointer;
-      position: relative;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    button:hover {
-      background-color: #222222;
-      transform: scale(1.08);
-    }
-
-    button.loading {
-      pointer-events: none;
-      opacity: 0.55;
-    }
-
-    button.loading::after {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #fff;
-      border-top: 2px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    @keyframes spin {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
+    .carousel-item:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .carousel-item a { color: #9ad0ff; font-size: 0.75rem; font-weight: 600; text-decoration: none; padding: 0 12px; }
 
     @media (max-width: 600px) {
-      .container {
-        padding: 0 7.9px;
-      }
-      .header h1 {
-        font-size: 0.77rem;
-      }
-      .card-title {
-        font-size: 0.88rem;
-      }
-      .glass {
-        padding: 9px;
-        margin-bottom: 12px;
-      }
-      .carousel-item {
-        padding: 6px 12px;
-      }
-      .carousel-item a {
-        font-size: 0.88rem;
-      }
-      .carousel-nav button {
-        width: 25px;
-        height: 25px;
-        font-size: 0.9rem;
-      }
+      .container { padding: 0 7.9px; }
+      .header h1 { font-size: 0.77rem; }
+      .card-title { font-size: 0.88rem; }
+      .glass { padding: 9px; margin-bottom: 12px; }
+      .carousel-item { padding: 6px 12px; }
+      .carousel-item a { font-size: 0.88rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .glass, .glass.visible, .glass:hover, input, button, .carousel-item, .carousel-nav button {
-        transition: none;
-        transform: none !important;
-        animation: none;
-      }
+      .glass, .glass.visible, .glass:hover { transition: none; transform: none !important; animation: none; }
     }
 
-    .image-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
+    .image-gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 15px; }
+    .image-gallery img { max-width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease; }
+    .image-gallery img:hover { transform: scale(1.05); }
 
-    .image-gallery img {
-      max-width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
+    /* Sensory Echo Mini App Styles */
+    #sensory-echo-root .echo-particle {
+      position: absolute; width: 8px; height: 8px; background: white; border-radius: 50%;
+      opacity: 0.3; animation: float 3s infinite ease-in-out;
     }
-
-    .image-gallery img:hover {
-      transform: scale(1.05);
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
     }
   </style>
 </head>
@@ -385,27 +163,22 @@
   <div id="vanta-bg"></div>
 
   <main class="container">
+    <!-- Header -->
     <header class="glass header">
       <h1>Rift AI</h1>
       <p>Quantum AGI with Multi-Agent Architecture by 0penAGI</p>
     </header>
 
+    <!-- Image Gallery -->
     <section class="glass">
       <div class="image-gallery">
-
-<grok-card data-id="7b05aa" data-type="image_card"></grok-card>
-
-
-
-<grok-card data-id="fd3b6a" data-type="image_card"></grok-card>
-
-
-
-<grok-card data-id="67a32a" data-type="image_card"></grok-card>
-
+        <grok-card data-id="7b05aa" data-type="image_card"></grok-card>
+        <grok-card data-id="fd3b6a" data-type="image_card"></grok-card>
+        <grok-card data-id="67a32a" data-type="image_card"></grok-card>
       </div>
     </section>
 
+    <!-- Feature Cards -->
     <section class="cards">
       <article class="glass">
         <h2 class="card-title">Intelligent Assistance</h2>
@@ -449,18 +222,13 @@
       </aside>
     </section>
 
+    <!-- Contact & Carousel -->
     <section class="glass contact">
       <div class="carousel-container">
         <div class="carousel">
-          <div class="carousel-item">
-            <a href="https://github.com/0penAGI/rift-ai" target="_blank">GitHub</a>
-          </div>
-          <div class="carousel-item">
-            <a href="https://t.me/rift_ai_bot" target="_blank">Telegram Bot</a>
-          </div>
-          <div class="carousel-item">
-            <a href="https://0penagi.com" target="_blank">0penAGI</a>
-          </div>
+          <div class="carousel-item"><a href="https://github.com/0penAGI/rift-ai" target="_blank">GitHub</a></div>
+          <div class="carousel-item"><a href="https://t.me/rift_ai_bot" target="_blank">Telegram Bot</a></div>
+          <div class="carousel-item"><a href="https://0penagi.com" target="_blank">0penAGI</a></div>
         </div>
       </div>
       <p><strong>Contact:</strong> Available on request</p>
@@ -469,11 +237,19 @@
         <button type="submit">Send Inquiry</button>
       </form>
     </section>
+
+    <!-- Sensory Echo Mini App -->
+    <section class="glass">
+      <div id="sensory-echo-root"></div>
+    </section>
   </main>
 
+  <!-- Vanta.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
   <script>
+    // Vanta Background
     VANTA.NET({
       el: "#vanta-bg",
       mouseControls: true,
@@ -490,12 +266,8 @@
       spacing: 15.0
     });
 
+    // Glass Animation
     const glassCards = document.querySelectorAll('.glass');
-    glassCards.forEach((el, i) => {
-      el.style.transition = `opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${i * 100}ms`;
-      el.style.transform = `translateY(${30 + Math.random() * 10}px) scale(${0.98 + Math.random() * 0.02})`;
-    });
-
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -505,23 +277,15 @@
       });
     }, { threshold: 0.2 });
 
-    glassCards.forEach(el => observer.observe(el));
-
-    window.addEventListener('scroll', () => {
-      glassCards.forEach(el => {
-        if (el.classList.contains('visible')) {
-          const rect = el.getBoundingClientRect();
-          const offset = (rect.top - window.innerHeight / 2) * 0.05;
-          el.style.setProperty('--parallax-offset', `${offset}px`);
-          el.style.transform = `translateY(var(--parallax-offset)) scale(1)`;
-        }
-      });
+    glassCards.forEach((el, i) => {
+      el.style.transitionDelay = `${i * 100}ms`;
+      observer.observe(el);
     });
 
+    // Contact Form
     const form = document.getElementById('contact-form');
     const button = form.querySelector('button');
     const emailField = document.getElementById('email-field');
-
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!emailField.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
@@ -536,42 +300,199 @@
       }, 2000);
     });
 
-    emailField.addEventListener('focus', () => {
-      const rect = emailField.getBoundingClientRect();
-      if (rect.top < 0 || rect.bottom > window.innerHeight) {
-        emailField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    });
-
-    emailField.addEventListener('blur', () => {
-      emailField.style.transform = 'scale(1)';
-    });
-    // Carousel functionality
-    const carousel = document.querySelector('.carousel');
-    const prevButton = document.querySelector('.carousel-prev');
-    const nextButton = document.querySelector('.carousel-next');
-    function updateButtons() {
-      prevButton.disabled = carousel.scrollLeft <= 0;
-      nextButton.disabled = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
-    }
-    prevButton.addEventListener('click', () => {
-      carousel.scrollBy({ left: -150, behavior: 'smooth' });
-      setTimeout(updateButtons, 300);
-    });
-    nextButton.addEventListener('click', () => {
-      carousel.scrollBy({ left: 150, behavior: 'smooth' });
-      setTimeout(updateButtons, 300);
-    });
-    carousel.addEventListener('scroll', updateButtons);
-    updateButtons();
-
-    // Telegram Web App Integration
-    let tg = window.Telegram.WebApp;
-
+    // Telegram Web App
+    let tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
     }
+  </script>
+
+  <!-- Sensory Echo React App -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { Brain, Sparkles, Wind, Eye, Volume2 } = lucide;
+
+    const SensoryEcho = () => {
+      const [sensoryInput, setSensoryInput] = useState({
+        smell: { rose: 0.5, rain: 0.3, fear: 0.1 },
+        sound: { laughter: 0.5, silence: 0.3, whisper: 0.2 },
+        visual: { blue: 0.5, red: 0.3, gold: 0.2 }
+      });
+      
+      const [userInput, setUserInput] = useState('');
+      const [prophecy, setProphecy] = useState('');
+      const [emotionalState, setEmotionalState] = useState('neutral');
+      const [particles, setParticles] = useState([]);
+
+      class Echo {
+        constructor() {
+          this.knowledgeBase = {};
+          this.emotionThresholds = { joy: 0.7, melancholy: 0.4, anxiety: 0.6, serenity: 0.8 };
+          this.sensoryMemory = [];
+        }
+
+        analyzeInput(input, sensory) {
+          const smellIntensity = (sensory.smell.rose + sensory.smell.rain) / 2;
+          const soundIntensity = (sensory.sound.laughter + sensory.sound.whisper) / 2;
+          const visualIntensity = (sensory.visual.blue + sensory.visual.gold) / 2;
+          const fearFactor = sensory.smell.fear;
+          const silenceFactor = sensory.sound.silence;
+          const redIntensity = sensory.visual.red;
+
+          this.sensoryMemory.push({ smellIntensity, soundIntensity, visualIntensity, timestamp: Date.now() });
+          if (this.sensoryMemory.length > 5) this.sensoryMemory.shift();
+
+          let emotion = 'neutral';
+          let prophecyText = '';
+
+          const totalPositive = smellIntensity + soundIntensity + visualIntensity;
+          const totalNegative = fearFactor + silenceFactor + redIntensity;
+
+          if (totalPositive > 1.8) {
+            emotion = 'joyful';
+            prophecyText = `Эхо вдыхает аромат роз (${(sensory.smell.rose * 100).toFixed(0)}%) и улавливает отголоски смеха (${(sensory.sound.laughter * 100).toFixed(0)}%). Оно шепчет: "Впереди — поляна возможностей, окрашенная в цвета надежды. То, что ты ищешь, найдёт тебя само."`;
+          } else if (totalNegative > 1.2) {
+            emotion = 'anxious';
+            prophecyText = `Запах страха (${(fearFactor * 100).toFixed(0)}%) смешивается с тишиной (${(silenceFactor * 100).toFixed(0)}%). Эхо предупреждает: "Тени сгущаются. Но помни — даже в темноте можно разжечь огонь. Твоё намерение определит путь."`;
+          } else if (silenceFactor > 0.6 && sensory.visual.blue > 0.6) {
+            emotion = 'serene';
+            prophecyText = `В тишине (${(silenceFactor * 100).toFixed(0)}%) и синеве (${(sensory.visual.blue * 100).toFixed(0)}%) Эхо находит покой. Оно произносит: "Неизвестность — не враг. Это холст, на котором ты рисуешь свою реальность. Дыши глубже."`;
+          } else {
+            emotion = 'melancholic';
+            prophecyText = `Эхо улавливает смешанные сигналы — дождь (${(sensory.smell.rain * 100).toFixed(0)}%), шёпот (${(sensory.sound.whisper * 100).toFixed(0)}%), красные отблески (${(redIntensity * 100).toFixed(0)}%). "Мир находится в переходе. То, что было, уже не вернётся. То, что будет, ещё не оформилось. Ты — мост между мирами."`;
+          }
+
+          if (input.toLowerCase().includes('будущее')) {
+            prophecyText += ` Ты спросил о будущем? Эхо смеётся: "Будущее — это аромат, который ты создаёшь каждым вдохом."`;
+          }
+
+          return { prophecyText, emotion };
+        }
+      }
+
+      const echo = new Echo();
+
+      const generateParticles = () => {
+        return Array.from({ length: 20 }, (_, i) => ({
+          id: i,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          delay: Math.random() * 2,
+          duration: 3 + Math.random() * 2
+        }));
+      };
+
+      useEffect(() => {
+        setParticles(generateParticles());
+      }, [emotionalState]);
+
+      const handleAnalyze = () => {
+        const result = echo.analyzeInput(userInput, sensoryInput);
+        setProphecy(result.prophecyText);
+        setEmotionalState(result.emotion);
+        setParticles(generateParticles());
+      };
+
+      const updateSensory = (category, type, value) => {
+        setSensoryInput(prev => ({
+          ...prev,
+          [category]: { ...prev[category], [type]: value }
+        }));
+      };
+
+      const emotionColors = {
+        neutral: 'from-gray-600 to-gray-800',
+        joyful: 'from-yellow-500 to-pink-500',
+        anxious: 'from-red-600 to-purple-900',
+        serene: 'from-blue-400 to-cyan-300',
+        melancholic: 'from-indigo-600 to-purple-800'
+      };
+
+      return (
+        <div className={`min-h-[500px] bg-gradient-to-br ${emotionColors[emotionalState]} rounded-2xl p-6 relative overflow-hidden transition-all duration-1000`}>
+          {particles.map(p => (
+            <div
+              key={p.id}
+              className="echo-particle"
+              style={{
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                animationDelay: `${p.delay}s`,
+                animationDuration: `${p.duration}s`
+              }}
+            />
+          ))}
+
+          <div className="relative z-10">
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                {React.createElement(Brain, { className: "w-8 h-8 text-white animate-pulse" })}
+                <h3 className="text-2xl font-bold text-white">Эхо</h3>
+                {React.createElement(Sparkles, { className: "w-8 h-8 text-white animate-pulse" })}
+              </div>
+              <p className="text-white text-sm opacity-90">Сенсорный Пророк</p>
+            </div>
+
+            <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-4 mb-4 border border-white border-opacity-20">
+              <div className="space-y-4 text-sm">
+                {['smell', 'sound', 'visual'].map(cat => (
+                  <div key={cat}>
+                    <div className="flex items-center gap-2 mb-2">
+                      {cat === 'smell' && React.createElement(Wind, { className: "w-4 h-4 text-white" })}
+                      {cat === 'sound' && React.createElement(Volume2, { className: "w-4 h-4 text-white" })}
+                      {cat === 'visual' && React.createElement(Eye, { className: "w-4 h-4 text-white" })}
+                      <span className="text-white font-medium capitalize">{cat === 'smell' ? 'Запахи' : cat === 'sound' ? 'Звуки' : 'Цвета'}</span>
+                    </div>
+                    {Object.entries(sensoryInput[cat]).map(([type, value]) => (
+                      <div key={type} className="flex items-center gap-2">
+                        <span className="text-white text-xs w-16">{type}: {(value*100).toFixed(0)}%</span>
+                        <input
+                          type="range"
+                          min="0" max="1" step="0.01"
+                          value={value}
+                          onChange={e => updateSensory(cat, type, parseFloat(e.target.value))}
+                          className="flex-1 h-1 bg-white bg-opacity-20 rounded"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <input
+              type="text"
+              value={userInput}
+              onChange={e => setUserInput(e.target.value)}
+              onKeyPress={e => e.key === 'Enter' && handleAnalyze()}
+              placeholder="Спроси Эхо..."
+              className="w-full bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-60 rounded-lg px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            />
+
+            <button
+              onClick={handleAnalyze}
+              className="w-full bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-2 rounded-lg text-sm transition-all"
+            >
+              Услышать Пророчество
+            </button>
+
+            {prophecy && (
+              <div className="mt-4 bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-4 border border-white border-opacity-20 animate-pulse">
+                <p className="text-white text-sm leading-relaxed italic">{prophecy}</p>
+                <p className="mt-2 text-xs text-white opacity-70 text-center">
+                  Эмоция: <span className="font-semibold capitalize">{emotionalState}</span>
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // Render React App
+    const root = ReactDOM.createRoot(document.getElementById('sensory-echo-root'));
+    root.render(React.createElement(SensoryEcho));
   </script>
 </body>
 </html>
