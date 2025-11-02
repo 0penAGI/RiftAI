@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Веб-чат с ИИ</title>
+<style>
+body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+#chat { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; }
+.message { margin: 5px 0; }
+.user { color: blue; }
+.ai { color: green; }
+#inputBox { width: 80%; }
+</style>
+</head>
+<body>
+<h2>Веб-чат с ИИ</h2>
+<div id="chat"></div>
+<input id="inputBox" type="text" placeholder="Напишите сообщение..." />
+<button onclick="sendMessage()">Отправить</button>
+
+<script>
+const chatDiv = document.getElementById("chat");
+
+async function sendMessage() {
+    const input = document.getElementById("inputBox");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    appendMessage("Вы", msg, "user");
+    input.value = "";
+
+    try {
+        const resp = await fetch("http://localhost:8000/chat", { // замени localhost на свой сервер/ngrok
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: 1, message: msg })
+        });
+        const data = await resp.json();
+        appendMessage("ИИ", data.reply, "ai");
+    } catch (e) {
+        appendMessage("Система", "Ошибка подключения к серверу", "ai");
+        console.error(e);
+    }
+}
+
+function appendMessage(sender, text, cls) {
+    const div = document.createElement("div");
+    div.className = "message " + cls;
+    div.textContent = `${sender}: ${text}`;
+    chatDiv.appendChild(div);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+}
+</script>
+</body>
+</html>
