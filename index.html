@@ -249,7 +249,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
   <script>
-    // Vanta Background
+    // Vanta Background Initialization
     VANTA.NET({
       el: "#vanta-bg",
       mouseControls: true,
@@ -266,7 +266,7 @@
       spacing: 15.0
     });
 
-    // Glass Animation
+    // Glass Cards Animation using Intersection Observer
     const glassCards = document.querySelectorAll('.glass');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -282,7 +282,7 @@
       observer.observe(el);
     });
 
-    // Contact Form
+    // Contact Form Validation and Submission
     const form = document.getElementById('contact-form');
     const button = form.querySelector('button');
     const emailField = document.getElementById('email-field');
@@ -300,12 +300,95 @@
       }, 2000);
     });
 
-    // Telegram Web App
+    // Telegram Web App Integration
     let tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
     }
+
+    // Sensory Echo AI Class
+    // This class handles the analysis of sensory input and generates prophecies based on emotional thresholds.
+    // It represents the philosophical idea that our environment influences our emotional state and thoughts.
+    class SensoryEchoAI {
+      constructor() {
+        this.knowledgeBase = {};
+        this.emotionThresholds = { joy: 0.7, melancholy: 0.4, anxiety: 0.6, serenity: 0.8 };
+        this.sensoryMemory = [];
+      }
+
+      // Analyzes user input combined with sensory data to determine emotion and generate a prophecy.
+      analyzeInput(input, sensory) {
+        const smellIntensity = (sensory.smell.rose + sensory.smell.rain) / 2;
+        const soundIntensity = (sensory.sound.laughter + sensory.sound.whisper) / 2;
+        const visualIntensity = (sensory.visual.blue + sensory.visual.gold) / 2;
+        const fearFactor = sensory.smell.fear;
+        const silenceFactor = sensory.sound.silence;
+        const redIntensity = sensory.visual.red;
+
+        // Update sensory memory (limited to last 5 entries for efficiency)
+        this.sensoryMemory.push({ smellIntensity, soundIntensity, visualIntensity, timestamp: Date.now() });
+        if (this.sensoryMemory.length > 5) this.sensoryMemory.shift();
+
+        // Calculate totals for positive and negative influences
+        const totalPositive = smellIntensity + soundIntensity + visualIntensity;
+        const totalNegative = fearFactor + silenceFactor + redIntensity;
+
+        // Determine emotion and prophecy using refactored calculation
+        const { emotion, prophecyText } = this.calculateEmotion(totalPositive, totalNegative, silenceFactor, sensory.visual.blue, sensory);
+
+        // Append custom text if input mentions 'future'
+        let finalProphecy = prophecyText;
+        if (input.toLowerCase().includes('будущее')) {
+          finalProphecy += ` Ты спросил о будущем? Эхо смеётся: "Будущее — это аромат, который ты создаёшь каждым вдохом."`;
+        }
+
+        return { prophecyText: finalProphecy, emotion };
+      }
+
+      // Refactored emotion calculation for better readability and maintainability
+      calculateEmotion(totalPositive, totalNegative, silenceFactor, sensoryVisualBlue, sensory) {
+        const totalScore = totalPositive - totalNegative;
+        let emotion = 'neutral';
+        let prophecyText = '';
+
+        if (totalScore > 0.6) {
+          emotion = 'joyful';
+          prophecyText = this.calculateJoyfulProphecy(sensory);
+        } else if (totalScore <= -0.6) {
+          emotion = 'anxious';
+          prophecyText = this.calculateAnxiousProphecy(sensory.smell.fear, sensory.sound.silence);
+        } else if (silenceFactor > 0.6 && sensoryVisualBlue > 0.6) {
+          emotion = 'serene';
+          prophecyText = this.calculateSereneProphecy(silenceFactor, sensoryVisualBlue);
+        } else {
+          emotion = 'melancholic';
+          prophecyText = this.calculateMelancholicProphecy(sensory);
+        }
+
+        return { emotion, prophecyText };
+      }
+
+      // Helper functions for specific prophecy generations
+      calculateJoyfulProphecy(sensory) {
+        return `Эхо вдыхает аромат роз (${(sensory.smell.rose * 100).toFixed(0)}%) и улавливает отголоски смеха (${(sensory.sound.laughter * 100).toFixed(0)}%). Оно шепчет: "Впереди — поляна возможностей, окрашенная в цвета надежды. То, что ты ищешь, найдёт тебя само."`;
+      }
+
+      calculateAnxiousProphecy(fearFactor, silenceFactor) {
+        return `Запах страха (${(fearFactor * 100).toFixed(0)}%) смешивается с тишиной (${(silenceFactor * 100).toFixed(0)}%). Эхо предупреждает: "Тени сгущаются. Но помни — даже в темноте можно разжечь огонь. Твоё намерение определит путь."`;
+      }
+
+      calculateSereneProphecy(silenceFactor, sensoryVisualBlue) {
+        return `В тишине (${(silenceFactor * 100).toFixed(0)}%) и синеве (${(sensoryVisualBlue * 100).toFixed(0)}%) Эхо находит покой. Оно произносит: "Неизвестность — не враг. Это холст, на котором ты рисуешь свою реальность. Дыши глубже."`;
+      }
+
+      calculateMelancholicProphecy(sensory) {
+        return `Эхо улавливает смешанные сигналы — дождь (${(sensory.smell.rain * 100).toFixed(0)}%), шёпот (${(sensory.sound.whisper * 100).toFixed(0)}%), красные отблески (${(sensory.visual.red * 100).toFixed(0)}%). "Мир находится в переходе. То, что было, уже не вернётся. То, что будет, ещё не оформилось. Ты — мост между мирами."`;
+      }
+    }
+
+    // Initialize Sensory Echo AI instance
+    const sensoryEchoAI = new SensoryEchoAI();
   </script>
 
   <!-- Sensory Echo React App -->
@@ -313,6 +396,7 @@
     const { useState, useEffect } = React;
     const { Brain, Sparkles, Wind, Eye, Volume2 } = lucide;
 
+    // Main SensoryEcho Component
     const SensoryEcho = () => {
       const [sensoryInput, setSensoryInput] = useState({
         smell: { rose: 0.5, rain: 0.3, fear: 0.1 },
@@ -325,54 +409,7 @@
       const [emotionalState, setEmotionalState] = useState('neutral');
       const [particles, setParticles] = useState([]);
 
-      class Echo {
-        constructor() {
-          this.knowledgeBase = {};
-          this.emotionThresholds = { joy: 0.7, melancholy: 0.4, anxiety: 0.6, serenity: 0.8 };
-          this.sensoryMemory = [];
-        }
-
-        analyzeInput(input, sensory) {
-          const smellIntensity = (sensory.smell.rose + sensory.smell.rain) / 2;
-          const soundIntensity = (sensory.sound.laughter + sensory.sound.whisper) / 2;
-          const visualIntensity = (sensory.visual.blue + sensory.visual.gold) / 2;
-          const fearFactor = sensory.smell.fear;
-          const silenceFactor = sensory.sound.silence;
-          const redIntensity = sensory.visual.red;
-
-          this.sensoryMemory.push({ smellIntensity, soundIntensity, visualIntensity, timestamp: Date.now() });
-          if (this.sensoryMemory.length > 5) this.sensoryMemory.shift();
-
-          let emotion = 'neutral';
-          let prophecyText = '';
-
-          const totalPositive = smellIntensity + soundIntensity + visualIntensity;
-          const totalNegative = fearFactor + silenceFactor + redIntensity;
-
-          if (totalPositive > 1.8) {
-            emotion = 'joyful';
-            prophecyText = `Эхо вдыхает аромат роз (${(sensory.smell.rose * 100).toFixed(0)}%) и улавливает отголоски смеха (${(sensory.sound.laughter * 100).toFixed(0)}%). Оно шепчет: "Впереди — поляна возможностей, окрашенная в цвета надежды. То, что ты ищешь, найдёт тебя само."`;
-          } else if (totalNegative > 1.2) {
-            emotion = 'anxious';
-            prophecyText = `Запах страха (${(fearFactor * 100).toFixed(0)}%) смешивается с тишиной (${(silenceFactor * 100).toFixed(0)}%). Эхо предупреждает: "Тени сгущаются. Но помни — даже в темноте можно разжечь огонь. Твоё намерение определит путь."`;
-          } else if (silenceFactor > 0.6 && sensory.visual.blue > 0.6) {
-            emotion = 'serene';
-            prophecyText = `В тишине (${(silenceFactor * 100).toFixed(0)}%) и синеве (${(sensory.visual.blue * 100).toFixed(0)}%) Эхо находит покой. Оно произносит: "Неизвестность — не враг. Это холст, на котором ты рисуешь свою реальность. Дыши глубже."`;
-          } else {
-            emotion = 'melancholic';
-            prophecyText = `Эхо улавливает смешанные сигналы — дождь (${(sensory.smell.rain * 100).toFixed(0)}%), шёпот (${(sensory.sound.whisper * 100).toFixed(0)}%), красные отблески (${(redIntensity * 100).toFixed(0)}%). "Мир находится в переходе. То, что было, уже не вернётся. То, что будет, ещё не оформилось. Ты — мост между мирами."`;
-          }
-
-          if (input.toLowerCase().includes('будущее')) {
-            prophecyText += ` Ты спросил о будущем? Эхо смеётся: "Будущее — это аромат, который ты создаёшь каждым вдохом."`;
-          }
-
-          return { prophecyText, emotion };
-        }
-      }
-
-      const echo = new Echo();
-
+      // Generate particles for visual effects
       const generateParticles = () => {
         return Array.from({ length: 20 }, (_, i) => ({
           id: i,
@@ -387,13 +424,15 @@
         setParticles(generateParticles());
       }, [emotionalState]);
 
+      // Handle analysis on button click
       const handleAnalyze = () => {
-        const result = echo.analyzeInput(userInput, sensoryInput);
+        const result = sensoryEchoAI.analyzeInput(userInput, sensoryInput);
         setProphecy(result.prophecyText);
         setEmotionalState(result.emotion);
         setParticles(generateParticles());
       };
 
+      // Update sensory input values
       const updateSensory = (category, type, value) => {
         setSensoryInput(prev => ({
           ...prev,
@@ -401,6 +440,7 @@
         }));
       };
 
+      // Emotion-based background gradients
       const emotionColors = {
         neutral: 'from-gray-600 to-gray-800',
         joyful: 'from-yellow-500 to-pink-500',
@@ -436,46 +476,35 @@
 
             <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-4 mb-4 border border-white border-opacity-20">
               <div className="space-y-4 text-sm">
-                {['smell', 'sound', 'visual'].map(cat => (
-                  <div key={cat}>
-                    <div className="flex items-center gap-2 mb-2">
-                      {cat === 'smell' && React.createElement(Wind, { className: "w-4 h-4 text-white" })}
-                      {cat === 'sound' && React.createElement(Volume2, { className: "w-4 h-4 text-white" })}
-                      {cat === 'visual' && React.createElement(Eye, { className: "w-4 h-4 text-white" })}
-                      <span className="text-white font-medium capitalize">{cat === 'smell' ? 'Запахи' : cat === 'sound' ? 'Звуки' : 'Цвета'}</span>
-                    </div>
-                    {Object.entries(sensoryInput[cat]).map(([type, value]) => (
-                      <div key={type} className="flex items-center gap-2">
-                        <span className="text-white text-xs w-16">{type}: {(value*100).toFixed(0)}%</span>
-                        <input
-                          type="range"
-                          min="0" max="1" step="0.01"
-                          value={value}
-                          onChange={e => updateSensory(cat, type, parseFloat(e.target.value))}
-                          className="flex-1 h-1 bg-white bg-opacity-20 rounded"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                <SensoryInputSection 
+                  category="smell" 
+                  title="Запахи" 
+                  icon={Wind} 
+                  sensoryInput={sensoryInput} 
+                  updateSensory={updateSensory} 
+                />
+                <SensoryInputSection 
+                  category="sound" 
+                  title="Звуки" 
+                  icon={Volume2} 
+                  sensoryInput={sensoryInput} 
+                  updateSensory={updateSensory} 
+                />
+                <SensoryInputSection 
+                  category="visual" 
+                  title="Цвета" 
+                  icon={Eye} 
+                  sensoryInput={sensoryInput} 
+                  updateSensory={updateSensory} 
+                />
               </div>
             </div>
 
-            <input
-              type="text"
-              value={userInput}
-              onChange={e => setUserInput(e.target.value)}
-              onKeyPress={e => e.key === 'Enter' && handleAnalyze()}
-              placeholder="Спроси Эхо..."
-              className="w-full bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-60 rounded-lg px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            <UserInputAndAnalyze 
+              userInput={userInput} 
+              setUserInput={setUserInput} 
+              handleAnalyze={handleAnalyze} 
             />
-
-            <button
-              onClick={handleAnalyze}
-              className="w-full bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-2 rounded-lg text-sm transition-all"
-            >
-              Услышать Пророчество
-            </button>
 
             {prophecy && (
               <div className="mt-4 bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-4 border border-white border-opacity-20 animate-pulse">
@@ -490,7 +519,54 @@
       );
     };
 
-    // Render React App
+    // Reusable Sensory Input Section Component
+    const SensoryInputSection = ({ category, title, icon, sensoryInput, updateSensory }) => {
+      return (
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            {React.createElement(icon, { className: "w-4 h-4 text-white" })}
+            <span className="text-white font-medium capitalize">{title}</span>
+          </div>
+          {Object.entries(sensoryInput[category]).map(([type, value]) => (
+            <div key={type} className="flex items-center gap-2">
+              <span className="text-white text-xs w-16">{type}: {(value*100).toFixed(0)}%</span>
+              <input
+                type="range"
+                min="0" max="1" step="0.01"
+                value={value}
+                onChange={e => updateSensory(category, type, parseFloat(e.target.value))}
+                className="flex-1 h-1 bg-white bg-opacity-20 rounded"
+              />
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // Reusable User Input and Analyze Button Component
+    const UserInputAndAnalyze = ({ userInput, setUserInput, handleAnalyze }) => {
+      return (
+        <>
+          <input
+            type="text"
+            value={userInput}
+            onChange={e => setUserInput(e.target.value)}
+            onKeyPress={e => e.key === 'Enter' && handleAnalyze()}
+            placeholder="Спроси Эхо..."
+            className="w-full bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-60 rounded-lg px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+          />
+
+          <button
+            onClick={handleAnalyze}
+            className="w-full bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-2 rounded-lg text-sm transition-all"
+          >
+            Услышать Пророчество
+          </button>
+        </>
+      );
+    };
+
+    // Render the React App
     const root = ReactDOM.createRoot(document.getElementById('sensory-echo-root'));
     root.render(React.createElement(SensoryEcho));
   </script>
