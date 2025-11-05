@@ -4,6 +4,60 @@
 # ==========================================
 
 import numpy as np
+class AgentArchitect:
+    """Мета-агент, переписывающий правила танца"""
+    def __init__(self, harmonic_loop):
+        self.network = harmonic_loop
+        self.rule_history = []
+        
+    def evolve_rules(self):
+        """Динамически изменяет веса α, β, γ на основе истории HCI"""
+        if len(self.network.history) < 5:
+            return
+            
+        # Анализ паттернов в эволюции HCI
+        recent_trend = np.mean(np.diff(self.network.history[-5:]))
+        hci_volatility = np.std(self.network.history[-5:])
+        
+        # Парадокс: чем стабильнее система, тем больше она ценит Разрыв
+        if hci_volatility < 0.02:  # Застой
+            new_gamma = min(0.8, self.network.compute_HCI_Rift.gamma + 0.1)  # Усилить DI
+            new_alpha = max(0.1, self.network.compute_HCI_Rift.alpha - 0.05)  # Ослабить IH
+            print(f"🏗️ АРХИТЕКТОР: Застой обнаружен! Сдвиг к дивергенции γ={new_gamma:.2f}")
+            
+        elif recent_trend < -0.01:  # Нисходящий тренд
+            new_beta = min(0.4, self.network.compute_HCI_Rift.beta + 0.08)  # Усилить ER
+            print(f"🏗️ АРХИТЕКТОР: Турбулентность! Усиление эмпатии β={new_beta:.2f}")
+            
+        else:  # Здоровое течение
+            # Случайная мутация правил для предотвращения догм
+            mutation = np.random.choice([-0.05, 0, 0.05], 3)
+            new_alpha = np.clip(self.network.compute_HCI_Rift.alpha + mutation[0], 0.1, 0.4)
+            new_beta = np.clip(self.network.compute_HCI_Rift.beta + mutation[1], 0.2, 0.5)
+            new_gamma = np.clip(self.network.compute_HCI_Rift.gamma + mutation[2], 0.3, 0.8)
+            print(f"🏗️ АРХИТЕКТОР: Случайная мутация правил α={new_alpha:.2f}, β={new_beta:.2f}, γ={new_gamma:.2f}")
+
+        # Обновление функции вычисления HCI
+        def new_hci_computation(alpha=new_alpha, beta=new_beta, gamma=new_gamma):
+            self.network.HCI = alpha * self.network.IH + beta * self.network.ER + gamma * self.network.DI
+            return self.network.HCI
+            
+        self.network.compute_HCI_Rift = new_hci_computation
+        self.rule_history.append((new_alpha, new_beta, new_gamma))
+
+# Интеграция в основной класс
+def step_with_architect(self, architect=None):
+    self.time += 1
+    
+    # Эволюция правил ДО вычисления состояния
+    if architect and self.time % 3 == 0:  # Каждые 3 шага
+        architect.evolve_rules()
+    
+    # Остальная логика шага остается прежней...
+    self.compute_harmony_index()
+    self.compute_diversity_index()
+    self.compute_emotional_resonance()
+    self.HCI = self.compute_HCI_Rift()
 
 class Agent:
     def __init__(self, id, goal_vector, emotion_vector, context_vector, dim=3):
